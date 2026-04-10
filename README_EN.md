@@ -31,21 +31,21 @@ Teacher.skill is an end-to-end **AI Agent Framework** specifically designed to d
 
 ```
 ┌─────────────────────────────────────────┐
-│        AI Core Layer (core/)            │  ← Soul of the project
+│        AI Core Layer (core/)            │  
 │  • TeacherSkillEngine (LLM Integration) │
 │  • LLMProvider (Multi-model Support)    │
 │  • Orchestrator (End-to-end Pipeline)   │
 └─────────────────────────────────────────┘
                     ↓
 ┌─────────────────────────────────────────┐
-│     Professional Prompt Layer (prompts/) │  ← Domain knowledge encapsulation
+│     Professional Prompt Layer (prompts/) │  
 │  • teaching_analyzer.md (Teaching Analysis)│
 │  • teacher_analyzer.md (Style Modeling) │
 │  • 5-layer Personality Structure Templates│
 └─────────────────────────────────────────┘
                     ↓
 ┌─────────────────────────────────────────┐
-│      Auxiliary Tools Layer (tools/)     │  ← Auxiliary tools
+│      Auxiliary Tools Layer (tools/)     │  
 │  • File Parser (Text Extraction)        │
 │  • File Manager (Directory Operations)  │
 │  • Version Controller (Local Backup)    │
