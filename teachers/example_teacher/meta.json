@@ -1,0 +1,88 @@
+{
+  "name": "张老师",
+  "slug": "zhang_teacher",
+  "version": "v1.0",
+  "created_at": "2026-04-10T12:00:00Z",
+  "updated_at": "2026-04-10T12:00:00Z",
+  "profile": {
+    "school": "某市第一中学",
+    "subject": "高中数学",
+    "grade": "高中",
+    "role": "数学教师",
+    "gender": "male",
+    "teaching_years": 15,
+    "title": "高级教师",
+    "education": "数学教育硕士",
+    "specialty": ["函数教学", "几何直观", "数学思维培养"]
+  },
+  "tags": {
+    "personality": ["严谨认真", "富有耐心", "幽默风趣", "善于倾听", "富有激情"],
+    "teaching": ["问题链教学", "可视化教学", "差异化教学", "思维训练优先"],
+    "knowledge": ["知识体系完整", "重点难点清晰", "记忆口诀丰富", "知识串联巧妙"]
+  },
+  "impression": "专业严谨的数学教师，善于将抽象数学概念生活化，注重学生思维培养和全面发展",
+  "analysis_dimensions": {
+    "teaching_ability": {
+      "score": 9.2,
+      "strengths": ["教学方法多样", "课堂管理有效", "评估策略科学"],
+      "areas_for_improvement": ["信息技术深度融合", "跨学科整合"]
+    },
+    "teacher_style": {
+      "score": 9.5,
+      "layers": {
+        "educational_philosophy": "建构主义，学生中心，全人教育",
+        "teacher_identity": "专业严谨，温和坚定，创新求实",
+        "communication_style": "清晰生动，富有节奏，善于引导",
+        "classroom_decisions": "基于证据，灵活应变，学生参与",
+        "teacher_student_relationship": "权威民主，关怀支持，边界清晰"
+      }
+    },
+    "subject_knowledge": {
+      "score": 9.8,
+      "coverage": ["代数", "几何", "概率统计", "微积分初步"],
+      "depth": ["概念理解", "方法掌握", "应用能力", "思维发展"]
+    }
+  },
+  "documents": {
+    "teaching": {
+      "file": "teaching.md",
+      "size_bytes": 3041,
+      "sections": 10,
+      "last_updated": "2026-04-10T12:00:00Z"
+    },
+    "teacher": {
+      "file": "teacher.md",
+      "size_bytes": 4388,
+      "sections": 8,
+      "last_updated": "2026-04-10T12:00:00Z"
+    },
+    "knowledge": {
+      "file": "knowledge.md",
+      "size_bytes": 5192,
+      "sections": 8,
+      "last_updated": "2026-04-10T12:00:00Z"
+    }
+  },
+  "generation_info": {
+    "model_used": "AI分析 + 人工完善",
+    "prompt_version": "v1.0",
+    "analysis_depth": "5层人格结构完整分析",
+    "data_sources": ["教学观察", "学生访谈", "材料分析", "专业标准"],
+    "quality_assurance": ["完整性检查", "一致性验证", "专业性审核"]
+  },
+  "usage_statistics": {
+    "times_loaded": 0,
+    "last_loaded": null,
+    "average_rating": null,
+    "feedback_count": 0
+  },
+  "version_history": [
+    {
+      "version": "v1.0",
+      "date": "2026-04-10T12:00:00Z",
+      "changes": "初始版本创建",
+      "author": "Teacher.skill AI引擎"
+    }
+  ],
+  "notes": "这是一个完整的示例教师档案，展示了Teacher.skill框架的分析深度和输出质量。实际使用时，可以根据具体教师情况进行调整和完善。"
+}
