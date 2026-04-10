@@ -282,13 +282,6 @@ flake8 core/ tools/
 
 本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
 
-## 📞 联系方式
-
-- **作者**：Canding3021
-- **GitHub**：[https://github.com/Canding3021](https://github.com/Canding3021)
-- **项目地址**：[https://github.com/Canding3021/teacher-skill](https://github.com/Canding3021/teacher-skill)
-- **问题反馈**：[GitHub Issues](https://github.com/Canding3021/teacher-skill/issues)
-
 ## 🙏 致谢
 
 - 灵感来自 [colleague-skill](https://github.com/titanwings/colleague-skill) 项目
@@ -296,9 +289,5 @@ flake8 core/ tools/
 - 特别感谢教育工作者们的宝贵经验
 
 ---
-
-<div align="center">
-
-**如果这个项目对你有帮助，请给个 ⭐️ 支持一下！**
 
 </div>

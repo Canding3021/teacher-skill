@@ -284,12 +284,6 @@ We welcome contributions of all kinds!
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 📞 Contact
-
-- **Author**: Canding3021
-- **GitHub**: [https://github.com/Canding3021](https://github.com/Canding3021)
-- **Project URL**: [https://github.com/Canding3021/teacher-skill](https://github.com/Canding3021/teacher-skill)
-- **Issue Tracking**: [GitHub Issues](https://github.com/Canding3021/teacher-skill/issues)
 
 ## 🙏 Acknowledgments
 
@@ -299,8 +293,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-<div align="center">
-
-**If this project helps you, please give it a ⭐️!**
 
 </div>
