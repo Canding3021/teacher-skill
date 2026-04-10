@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 """
-Lightweight teacher-skill engine.
-
-This module keeps the original public API of the light engine while
-providing a compact, syntax-safe implementation for local testing and
-offline development.
+Lightweight teacher-skill engine used for demos and smoke tests.
 """
 
 import json
@@ -163,7 +159,7 @@ class DivideAndConquerStrategy:
 
 
 class TeacherSkillEngineLight:
-    """Compact implementation used for smoke tests and low-cost analysis."""
+    """Compact implementation used for smoke tests and demo flows."""
 
     def __init__(self, prompts_dir: str = "./prompts"):
         self.prompts_dir = Path(prompts_dir)
@@ -192,12 +188,38 @@ class TeacherSkillEngineLight:
 
     def merge_with_protocol(self, original: TeacherStyleContract, updates: List[Dict[str, Any]]) -> TeacherStyleContract:
         merged = TeacherStyleContract(**original.to_dict())
+        conflict_resolutions: List[Dict[str, Any]] = []
+
         for update in updates:
-            for layer_name in ["layer_0", "layer_1", "layer_2", "layer_3", "layer_4", "metadata"]:
+            for layer_name in ["layer_0", "layer_1", "layer_2", "layer_3", "layer_4"]:
                 payload = update.get(layer_name)
-                if isinstance(payload, dict):
-                    getattr(merged, layer_name).update(payload)
+                current_layer = getattr(merged, layer_name)
+                if not isinstance(payload, dict):
+                    continue
+
+                for field_name, field_value in payload.items():
+                    if field_name in current_layer and current_layer[field_name] not in ({}, [], ""):
+                        if current_layer[field_name] != field_value:
+                            conflict_resolutions.append(
+                                {
+                                    "field": f"{layer_name}.{field_name}",
+                                    "resolution": self.conflict_resolver.resolve_contextual_difference(
+                                        str(current_layer[field_name]),
+                                        str(field_value),
+                                        "original",
+                                        "update",
+                                    ),
+                                }
+                            )
+                    current_layer[field_name] = field_value
+
+            metadata_payload = update.get("metadata")
+            if isinstance(metadata_payload, dict):
+                merged.metadata.update(metadata_payload)
+
         merged.metadata["evidence_count"] = merged.metadata.get("evidence_count", 0) + len(updates)
+        merged.metadata["merge_strategy"] = "conflict_resolution_protocol"
+        merged.metadata["conflict_resolutions"] = conflict_resolutions
         return merged
 
     def correct_with_weight(self, current: TeacherStyleContract, correction: str) -> Dict[str, Any]:
@@ -206,6 +228,10 @@ class TeacherSkillEngineLight:
             "current_skill": current.to_dict(),
             "correction": correction,
             "analysis": analysis,
+            "correction_analysis": analysis,
+            "applied_strategy": "lightweight_weighted_adjustment",
+            "confidence": analysis["confidence"],
+            "recommendation": "apply carefully" if analysis["influence_weight"] >= 0.6 else "treat as style hint",
         }
 
     def audit_for_hallucinations(self, document: str, source_materials: List[str]) -> Dict[str, Any]:
@@ -290,7 +316,7 @@ class TeacherSkillEngineLight:
                 },
                 "problem_solving": {
                     "approach": "break_down_problem",
-                    "steps": ["拆分问题", "确认证据", "形成结论"],
+                    "steps": ["拆分问题", "确认依据", "形成结论"],
                     "resources": ["materials", "interviews", "classroom records"],
                 },
                 "time_management": {"planning": "weekly", "prioritization": "student_impact_first", "delegation": "selective"},
@@ -315,4 +341,3 @@ class TeacherSkillEngineLight:
                 },
             },
         }
-
