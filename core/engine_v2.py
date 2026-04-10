@@ -1,9 +1,4 @@
 #!/usr/bin/env python3
-"""
-Teacher Skill Engine v2 - 工业级核心AI引擎
-
-重构版本：引入结构化契约、审计能力、分而治之策略
-"""
 
 import os
 import json
