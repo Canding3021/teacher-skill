@@ -1,74 +1,81 @@
-# 核心依赖
-python>=3.9
+# Teacher.skill 依赖文件
+# Python版本要求：>=3.9
+
+# ======================
+# 核心依赖（运行必需）
+# ======================
 
 # HTTP请求
 requests>=2.28.0
 
-# 大模型API客户端
-openai>=1.0.0
-anthropic>=0.25.0
+# 数据验证和结构化
+pydantic>=2.0.0
 
-# 文档解析
+# ======================
+# 文档解析依赖（按需安装）
+# ======================
+
+# Word文档解析
+python-docx>=1.1.0
+
+# PDF文档解析（推荐pdfplumber，支持更好）
+pdfplumber>=0.10.0
+
+# HTML/XML解析
 beautifulsoup4>=4.12.0
 lxml>=4.9.0
-python-docx>=1.1.0
-pdfplumber>=0.10.0
-PyPDF2>=3.0.0
 
-# 数据处理
-pandas>=2.0.0
-numpy>=1.24.0
+# ======================
+# 大模型API客户端（按需安装）
+# ======================
 
-# 中文处理
+# OpenAI API
+openai>=1.0.0
+
+# Anthropic API
+anthropic>=0.25.0
+
+# ======================
+# 中文处理（按需安装）
+# ======================
+
+# 中文分词
 jieba>=0.42.1
+
+# 拼音转换
 pypinyin>=0.48.0
 
-# 配置管理
-pyyaml>=6.0
+# ======================
+# 配置和工具（可选）
+# ======================
+
+# 环境变量管理
 python-dotenv>=1.0.0
 
-# 日志和监控
-structlog>=23.0.0
-prometheus-client>=0.17.0
+# YAML配置
+pyyaml>=6.0
 
-# 测试
-pytest>=7.4.0
-pytest-cov>=4.1.0
-pytest-asyncio>=0.21.0
-
-# 代码质量
-black>=23.0.0
-flake8>=6.0.0
-mypy>=1.5.0
-isort>=5.12.0
-
-# 类型提示
-typing-extensions>=4.7.0
-
-# 异步支持
-aiohttp>=3.8.0
-asyncio>=3.4.3
-
-# 缓存
-redis>=5.0.0
-
-# 数据库（可选）
-sqlalchemy>=2.0.0
-alembic>=1.12.0
-
-# Web框架（可选，用于API服务）
-fastapi>=0.104.0
-uvicorn>=0.24.0
-
-# 任务队列（可选）
-celery>=5.3.0
-
-# 开发工具
-ipython>=8.0.0
-jupyter>=1.0.0
-pre-commit>=3.5.0
-
-# 其他工具
+# 进度条显示
 tqdm>=4.65.0
+
+# 命令行颜色
 colorama>=0.4.0
+
+# 命令行界面
 click>=8.1.0
+
+# ======================
+# 安装说明
+# ======================
+
+# 1. 基础安装（仅核心+文档解析）：
+# pip install -r requirements.txt
+
+# 2. 最小安装（仅核心功能）：
+# pip install requests pydantic
+
+# 3. 完整安装（包含大模型API）：
+# pip install -r requirements.txt openai anthropic
+
+# 4. 开发安装：
+# pip install -r requirements-dev.txt
