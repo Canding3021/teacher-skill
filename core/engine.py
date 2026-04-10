@@ -394,28 +394,98 @@ class TeacherSkillEngineV2:
         
         return result
     
-    # ============================================================================
-    # 辅助方法
+   # ============================================================================
+    # 辅助方法（实现原功能的关键逻辑）
     # ============================================================================
     
     def _extract_schema_from_model(self, model_class) -> Dict[str, Any]:
         """从Pydantic模型提取JSON Schema"""
         if PYDANTIC_AVAILABLE and hasattr(model_class, 'schema'):
-            schema = model_class.schema()
-            # 简化schema，移除不必要的元数据
-            return {
-                "type": "object",
-                "properties": schema.get("properties", {}),
-                "required": schema.get("required", [])
-            }
-        else:
-            # 备用方案：手动定义简化schema
-            return {
-                "type": "object",
-                "properties": {
-                    "layer_0": {"type": "object"},
-                    "layer_1": {"type": "object"},
-                    "layer_2": {"type": "object"},
-                    "layer_3": {"type": "object"},
-                    "layer_4": {"type": "object"},
-                    "metadata": {"type": "object
+            return model_class.schema()
+        # 兜底手动 Schema 结构
+        return {
+            "type": "object",
+            "properties": {f"layer_{i}": {"type": "object"} for i in range(5)}
+        }
+
+    def _is_materials_too_large(self, materials: List[str]) -> bool:
+        """检查输入材料是否超过模型上下文限制"""
+        total_text = "".join(materials)
+        return self.llm.estimate_tokens(total_text) > self.token_limit
+
+    def _prepare_context(self, materials: List[str]) -> str:
+        """将多份材料整合成有序的上下文字符串"""
+        context = []
+        for i, m in enumerate(materials):
+            context.append(f"--- Material #{i+1} ---\n{m}\n")
+        return "\n".join(context)
+
+    def _validate_and_convert_result(self, result: Dict, model_class: Any) -> TeacherStyleModel:
+        """验证 LLM 返回的 JSON 是否符合模型定义"""
+        data = result.get("data", result) # 兼容不同 API 返回格式
+        try:
+            if PYDANTIC_AVAILABLE:
+                return model_class(**data)
+            else:
+                # 简单数据类映射
+                obj = model_class()
+                for k, v in data.items():
+                    if hasattr(obj, k): setattr(obj, k, v)
+                return obj
+        except Exception as e:
+            logger.error(f"结果转换失败: {str(e)}")
+            return TeacherStyleModel() # 返回空模型保证引擎不崩溃
+
+    def _analyze_in_chunks(self, materials: List[str], prompt: str, schema: Dict) -> TeacherStyleModel:
+        """分而治之：分块分析并进行中间合并"""
+        intermediate_results = []
+        for i in range(0, len(materials), 2): # 每2篇材料一组
+            chunk = materials[i:i+2]
+            res = self.llm.call_with_schema(prompt, self._prepare_context(chunk), schema)
+            intermediate_results.append(res.get("data", {}))
+        
+        # 将第一块作为初始值，后续进行迭代合并
+        final_model = self._validate_and_convert_result(intermediate_results[0], TeacherStyleModel)
+        if len(intermediate_results) > 1:
+            return self.merge_with_conflict_resolution(final_model, intermediate_results[1:])
+        return final_model
+
+    def _get_conflict_protocol(self) -> Dict[str, str]:
+        """定义冲突解决的硬性准则"""
+        return {
+            "priority": "evidence_density", # 证据密度优先
+            "recency_bias": "low",          # 不盲目遵循最新材料，侧重稳定性
+            "logical_consistency": "high"    # 强调层级间的逻辑自洽
+        }
+
+    def _get_influence_weight_system(self) -> Dict[str, float]:
+        """定义不同类型修正的权重"""
+        return {
+            "factual_correction": 1.0,      # 事实性错误（如名字）权重最高
+            "style_adjustment": 0.4,       # 语气微调权重较低
+            "belief_shift": 0.7            # 教育理念转变需中高权重
+        }
+
+    def _generate_merge_report(self, original: TeacherStyleModel, new_data: Dict, updates: List) -> Dict:
+        """计算合并前后的差异度"""
+        # 简单逻辑：统计 key 的变化（实际可使用 dictdiffer 库）
+        return {"changes_count": len(updates), "timestamp": datetime.now().isoformat()}
+
+    def _analyze_correction_weight(self, correction: str, current_skill: TeacherStyleModel) -> Dict:
+        """预分析纠正内容的性质"""
+        # 模拟意图识别
+        is_hard_fact = any(kw in correction for kw in ["不是", "错误", "改名"])
+        return {
+            "suggested_weight": 0.9 if is_hard_fact else 0.5,
+            "domain": "communication" if "说话" in correction else "general"
+        }
+
+    def _enhance_audit_report(self, result: Dict, doc: str, materials: List[str]) -> Dict:
+        """增强审计报告的可读性"""
+        result["audit_timestamp"] = datetime.now().isoformat()
+        result["summary"] = "文档通过质量验证" if result.get("verification_status") == "pass" else "需人工介入"
+        return result
+# 兼容性别名
+TeacherSkillEngine = TeacherSkillEngineV2
+StructuredOpenAIClient = StructuredOpenAIClient
+LLMProvider = LLMProvider
